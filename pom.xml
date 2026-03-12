@@ -9,6 +9,7 @@
         <version>4.1.0-SNAPSHOT</version>
         <relativePath/>
     </parent>
+
     <groupId>com.mar</groupId>
     <artifactId>minesweeper-back</artifactId>
     <version>1.0-SNAPSHOT</version>
