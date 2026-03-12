@@ -2,8 +2,8 @@
 
 ## Задачи:
 
-- [ ] WEB сервис (Java17+ Spring Boot 3.x);
-- [ ] REST API в строгом соответствии со [спецификацией](https://minesweeper-test.studiotg.ru/swagger/);
+- [x] WEB сервис (Java17+ Spring Boot 3.x);
+- [x] REST API в строгом соответствии со [спецификацией](https://minesweeper-test.studiotg.ru/swagger/);
 - [ ] Логика игры в "Сапер" - [алгоритм короеда](https://apmath.info/wiki/%D0%97%D0%B0%D0%BB%D0%B8%D0%B2%D0%BA%D0%B0_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D0%B8_%D1%81_%D0%B7%D0%B0%D1%82%D1%80%D0%B0%D0%B2%D0%BA%D0%BE%D0%B9) (можно потестить в параллель);
 - [ ] Тестирование с фронтендом;
 - [ ] Описать инструкцию для сборки и запуску.
