@@ -3,3 +3,7 @@ server:
 spring:
   application:
     name: minesweeper
+cache:
+  session:
+    user:
+      size: 12
