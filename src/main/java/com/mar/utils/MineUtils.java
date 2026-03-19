@@ -4,10 +4,9 @@ import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Arrays;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 @UtilityClass
 public class MineUtils {
@@ -57,11 +56,12 @@ public class MineUtils {
         if (field[col][row] != CLOSE_CELL && field[col][row] != MINE_CELL) {
             throw new CheckOpenCellException();
         }
-        Deque<Pair<Integer, Integer>> stack = new LinkedList<>();
-        stack.push(Pair.of(col, row));
+        Set<Pair<Integer, Integer>> stack = new HashSet<>();
+        stack.add(Pair.of(col, row));
 
         while (!stack.isEmpty()) {
-            Pair<Integer, Integer> cell = stack.pop();
+            Pair<Integer, Integer> cell = stack.stream().findFirst().get();
+            stack.remove(cell);
 
             int i = cell.getKey();
             int j = cell.getValue();
@@ -70,9 +70,9 @@ public class MineUtils {
                 throw new BoomException();
             }
 
-            Pair<Integer, List<Pair<Integer, Integer>>> pair = calcMineCountWithEmptyCells(field, i, j);
+            Pair<Integer, Set<Pair<Integer, Integer>>> pair = calcMineCountWithEmptyCells(field, i, j);
             int mineCount = pair.getKey();
-            List<Pair<Integer, Integer>> newCells = pair.getValue();
+            Set<Pair<Integer, Integer>> newCells = pair.getValue();
 
             if (mineCount == 0) {
                 field[i][j] = OPEN_CELL;
@@ -85,9 +85,9 @@ public class MineUtils {
         return field;
     }
 
-    private static Pair<Integer, List<Pair<Integer, Integer>>> calcMineCountWithEmptyCells(Character[][] field, int i, int j) {
+    private static Pair<Integer, Set<Pair<Integer, Integer>>> calcMineCountWithEmptyCells(Character[][] field, int i, int j) {
         int mineCount = 0;
-        List<Pair<Integer, Integer>> newCells = new LinkedList<>();
+        Set<Pair<Integer, Integer>> newCells = new HashSet<>();
 
         mineCount += checkLeft(field, i, j, newCells);
         mineCount += checkRight(field, i, j, newCells);
@@ -107,7 +107,7 @@ public class MineUtils {
     }
 
 
-    private static void saveAdd(Character[][] field, List<Pair<Integer, Integer>> newCells, int i, int j) {
+    private static void saveAdd(Character[][] field, Set<Pair<Integer, Integer>> newCells, int i, int j) {
         if (i < 0 || i >= field.length) {
             return;
         }
@@ -117,7 +117,7 @@ public class MineUtils {
         newCells.add(Pair.of(i, j));
     }
 
-    private static int checkLeft(Character[][] field, int i, int j, List<Pair<Integer, Integer>> newCells) {
+    private static int checkLeft(Character[][] field, int i, int j, Set<Pair<Integer, Integer>> newCells) {
         if (i <= 0) {
             return 0;
         }
@@ -130,7 +130,7 @@ public class MineUtils {
         return 0;
     }
 
-    private static int checkRight(Character[][] field, int i, int j, List<Pair<Integer, Integer>> newCells) {
+    private static int checkRight(Character[][] field, int i, int j, Set<Pair<Integer, Integer>> newCells) {
         if (i >= field.length - 1) {
             return 0;
         }
@@ -143,7 +143,7 @@ public class MineUtils {
         return 0;
     }
 
-    private static int checkUp(Character[][] field, int i, int j, List<Pair<Integer, Integer>> newCells) {
+    private static int checkUp(Character[][] field, int i, int j, Set<Pair<Integer, Integer>> newCells) {
         if (j <= 0) {
             return 0;
         }
@@ -156,7 +156,7 @@ public class MineUtils {
         return 0;
     }
 
-    private static int checkDown(Character[][] field, int i, int j, List<Pair<Integer, Integer>> newCells) {
+    private static int checkDown(Character[][] field, int i, int j, Set<Pair<Integer, Integer>> newCells) {
         if (j >= field[0].length - 1) {
             return 0;
         }
@@ -169,7 +169,7 @@ public class MineUtils {
         return 0;
     }
 
-    private static int checkLeftUp(Character[][] field, int i, int j, List<Pair<Integer, Integer>> newCells) {
+    private static int checkLeftUp(Character[][] field, int i, int j, Set<Pair<Integer, Integer>> newCells) {
         if (i <= 0 || j <= 0) {
             return 0;
         }
@@ -182,7 +182,7 @@ public class MineUtils {
         return 0;
     }
 
-    private static int checkLeftDown(Character[][] field, int i, int j, List<Pair<Integer, Integer>> newCells) {
+    private static int checkLeftDown(Character[][] field, int i, int j, Set<Pair<Integer, Integer>> newCells) {
         if (i <= 0 || j >= field[0].length - 1) {
             return 0;
         }
@@ -195,7 +195,7 @@ public class MineUtils {
         return 0;
     }
 
-    private static int checkRightUp(Character[][] field, int i, int j, List<Pair<Integer, Integer>> newCells) {
+    private static int checkRightUp(Character[][] field, int i, int j, Set<Pair<Integer, Integer>> newCells) {
         if (i >= field.length - 1 || j <= 0) {
             return 0;
         }
@@ -208,7 +208,7 @@ public class MineUtils {
         return 0;
     }
 
-    private static int checkRightDown(Character[][] field, int i, int j, List<Pair<Integer, Integer>> newCells) {
+    private static int checkRightDown(Character[][] field, int i, int j, Set<Pair<Integer, Integer>> newCells) {
         if (i >= field.length - 1 || j >= field[0].length - 1) {
             return 0;
         }
